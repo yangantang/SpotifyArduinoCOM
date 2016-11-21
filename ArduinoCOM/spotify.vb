@@ -1,14 +1,11 @@
 ﻿Imports System.Threading
 
-' Spotify API V0.01 beta - a very quick First draft
-' © august 3 2009 by Steffest
-' This code is free to use in any way you want and comes with NO WARRANTIES
-' tested with Spotify 0.3.18
 ' Usage:
 ' 
 ' Dim Spotify As New Spotify()
 ' 
-' Spotify.PlayPause()
+' Spotify.Play()
+' Spotify.Pause()
 ' Spotify.PlayPrev()
 ' Spotify.PlayNext()
 ' Spotify.Mute()
@@ -45,7 +42,14 @@ Public Class spotify
         w = FindWindow("SpotifyMainWindow", vbNullString)
     End Sub
 
-    Public Function PlayPause() As Boolean
+    Public Function Play() As Boolean
+        SetForegroundWindow(w)
+        keybd_event(Keys.Space, 0, 0, 0)
+        SendMessage(w, WM_KEYDOWN, Keys.Space, 0)
+        SendMessage(w, WM_KEYUP, Keys.Space, 0)
+    End Function
+
+    Public Function Pause() As Boolean
         SetForegroundWindow(w)
         keybd_event(Keys.Space, 0, 0, 0)
         SendMessage(w, WM_KEYDOWN, Keys.Space, 0)

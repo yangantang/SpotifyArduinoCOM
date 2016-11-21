@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports System
+Imports System.IO
 Imports System.IO.Ports
 Imports System.Threading
 Imports Microsoft.VisualBasic.FileIO
@@ -57,9 +58,12 @@ Public Class Form1
                             Spotify.PlayNext()
                             lstConsole.Items.Add("Play next song.")
                             type = "next"
-                        Case "pause"
-                            Spotify.PlayPause()
+                        Case "play"
+                            Spotify.Play()
                             type = "play"
+                        Case "pause"
+                            Spotify.Pause()
+                            type = "pause"
                             'lstConsole.Items.Add("Spotify paused.")
                         Case ""
                             '  received an Unknown command. Deal with it.
@@ -141,6 +145,7 @@ Public Class Form1
                     btnConnect.Text = "Disconnect"
                     lstConsole.Items.Add("press 1 then send to play/pause")
                     lstConsole.Items.Add("press 2 then send for next song")
+                    lstConsole.Items.Add("press 3 then send for previous song")
                 End If
             Catch ex As Exception
                 MsgBox(ex.Message)
@@ -159,7 +164,9 @@ Public Class Form1
     End Sub
 
     Private Sub Create_CSV(ByVal _type As String, ByVal _latency As String)
-        Dim csvFile As String = "C:\Users\yangtang\Desktop\latencyData.csv"
+        Dim csvFile As String = "C:\Users\"
+        csvFile = csvFile & Environment.UserName
+        csvFile = csvFile & "\Desktop\latencyData.csv"
 
         If IO.File.Exists(csvFile) Then
             Dim objWriter As New StreamWriter(csvFile, True)

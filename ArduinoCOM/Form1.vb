@@ -65,10 +65,17 @@ Public Class Form1
                             Spotify.Pause()
                             type = "pause"
                             'lstConsole.Items.Add("Spotify paused.")
+                        Case "speech"
+                            type = "speech"
+                            playSoundFile()
+                            SerialPort.Write("1")
                         Case ""
                             '  received an Unknown command. Deal with it.
                             '  lstConsole.Items.Add("Received: " & word)
                         Case Else
+                            'If (words(0) <> "MPDV") Then
+                            '    Continue For
+                            'End If
                             lstConsole.Items.Add("Latency: " + words(0) + " ms")
                             Create_CSV(type, words(0))
                     End Select
@@ -76,6 +83,13 @@ Public Class Form1
             Next
         End If
 
+    End Sub
+
+    Sub playSoundFile()
+        Dim wavFile As String = "C:\Users\"
+        wavFile = wavFile & Environment.UserName
+        wavFile = wavFile & "\Desktop\sound.wav"
+        My.Computer.Audio.Play(wavFile, AudioPlayMode.WaitToComplete)
     End Sub
 
     Private Sub SerialPort_DataReceived(ByVal sender As Object, ByVal e As System.IO.Ports.SerialDataReceivedEventArgs) Handles SerialPort.DataReceived
@@ -146,6 +160,7 @@ Public Class Form1
                     lstConsole.Items.Add("press 1 then send to play/pause")
                     lstConsole.Items.Add("press 2 then send for next song")
                     lstConsole.Items.Add("press 3 then send for previous song")
+                    lstConsole.Items.Add("press 4 then send for wake word test")
                 End If
             Catch ex As Exception
                 MsgBox(ex.Message)
